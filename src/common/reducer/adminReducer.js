@@ -9,7 +9,7 @@ import {
     info: null,
     loading: true,
     error: null,
-    programs: null,
+    admins: null,
   };
   
   export const AdminReducer = (state = INITIAL_STATE, action) => {
@@ -22,7 +22,7 @@ import {
       case FETCH_ADMINS_SUCCESS:
         return {
           ...state,
-          programs: action.payload,
+          admins: action.payload,
           loading: false,
           error: null,
           info: null,
@@ -30,7 +30,7 @@ import {
       case FETCH_ADMINS_FAILED:
         return {
           ...state,
-          programs: null,
+          admins: null,
           info: null,
           loading: false,
           error: action.payload,

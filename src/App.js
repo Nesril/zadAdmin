@@ -11,7 +11,7 @@ import Profile from "./pages/Profile";
 import PageNotFound from "./pages/PageNotFound";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/signUp";
-import logo from "./assets/img/logo.png";
+import Announcement from './pages/Announcement'
 
 import "./assets/css/style.css";
 import { fetchUser } from "./common/action/authAction";
@@ -22,6 +22,7 @@ import Programs from "./pages/Programs";
 import { fethPrograms } from "./common/action/programAction";
 import { fethActivities } from "./common/action/activityAction";
 import { fethAdmins } from "./common/action/adminsAction";
+import CustomProgress from "./components/CustomProgress";
 
 const styles = (theme) => ({
   loadingContainer: {},
@@ -43,24 +44,7 @@ export default function App() {
         }
   },[auth?.info])
   return auth.loading ? (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-        height: "100vh",
-      }}
-    >
-      <div>
-        <img
-          src={logo}
-          style={{ width: "200px", objectFit: "cover" }}
-          alt="logo.pic"
-        />
-      </div>
-      <CircularProgress size={30} style={{ textAlign: "center" }} />
-    </div>
+  <CustomProgress/>
   ) : (
     <BrowserRouter>
       <Routes>
@@ -68,6 +52,7 @@ export default function App() {
           <>
             <Route path="/" element={<Home />} />
             <Route path="/programs" element={<Programs />} />
+            <Route path="/announcement" element={<Announcement />} />
             <Route path="/profile" element={<Profile />} />
           </>
         ) : (

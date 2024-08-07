@@ -14,24 +14,56 @@ export default function Home() {
   const admins = useSelector((state) => state.admins);
 
    console.log(activities);
+   console.log(programs);
   
   // Placeholder data for demonstration
   const [summary, setSummary] = useState({
-    programs: 10,
-    upcomingPrograms: 3,
-    announcements: 5,
-    transactions: 5000,
-    admins: 4,
+    programs: 0,
+    upcomingPrograms: 0,
+    announcements: 0,
+    transactions: 0,
+    admins: 0,
   });
-  const [recentActivity, setRecentActivity] = useState([
-    { id: 1, activity: "Admin X added a new program" },
-    { id: 2, activity: "Admin Y posted an announcement" },
-    { id: 3, activity: "Transaction #123 completed" },
-  ]);
-  const [notifications, setNotifications] = useState([
-    "System update available",
-    "2 pending transactions",
-  ]);
+  
+  useEffect(() => {
+    if (programs?.programs && programs.programs.length > 0) {
+      const today = new Date().toDateString();
+  
+      const activePrograms = programs.programs.filter(e => {
+        const programDate = new Date(e.startingDate).toDateString();
+        return programDate <= today;
+      });
+  
+      const upcomingPrograms = programs.programs.filter(e => {
+        const programDate = new Date(e.startingDate).toDateString();
+        return programDate > today;
+      });
+  
+      setSummary(prevSummary => ({
+        ...prevSummary,
+        programs: activePrograms.length,
+        upcomingPrograms: upcomingPrograms.length,
+      }));
+    }
+  }, [programs]);
+  
+  useEffect(() => {
+    if (admins?.admins && admins.admins.length > 0) {
+      setSummary(prevSummary => ({
+        ...prevSummary,
+        admins: admins.admins.length,
+      }));
+    }
+  }, [admins]);
+  
+  
+
+  const [recentActivity, setRecentActivity] = useState([]);
+  useEffect(() => {
+    if (activities?.activities && activities.activities.length > 0) {
+        setRecentActivity(activities.activities)
+    }
+  }, [recentActivity]);
 
   return (
     <Box sx={styles.container}>
@@ -92,7 +124,8 @@ export default function Home() {
                 <CardContent>
                   <Typography variant="h6">Recent Activity</Typography>
                   {recentActivity.map((activity) => (
-                    <Typography key={activity.id}>{activity.activity}</Typography>
+                    <Typography style={{paddingLeft:10,opacity:0.8}} key={activity.id}>{activity.description
+                      }</Typography>
                   ))}
                 </CardContent>
               </Card>

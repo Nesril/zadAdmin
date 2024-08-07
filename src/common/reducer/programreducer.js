@@ -3,6 +3,11 @@ import {
   FETCH_PROGRAMS_SUCCESS,
   FETCH_PROGRAMS_FAILED,
 
+  CREATE_PROGRAMS,
+  CREATE_PROGRAMS_SUCCESS,
+  CREATE_PROGRAMS_FAILED,
+
+
 } from "../store/types";
 
 const INITIAL_STATE = {
@@ -35,6 +40,27 @@ export const ProgramsReducer = (state = INITIAL_STATE, action) => {
         loading: false,
         error: action.payload,
       };
+
+    case CREATE_PROGRAMS:
+        return {
+            ...state,
+            loading: true
+        };
+    case CREATE_PROGRAMS_FAILED:
+        return {
+            ...state,
+            info: null,
+            loading: false,
+            error: action.payload,
+        };
+    case CREATE_PROGRAMS_SUCCESS:
+        return {
+            ...state,
+            info: action.payload,
+            loading: false,
+            error: null,
+        };
+
     default:
       return state;
   }
